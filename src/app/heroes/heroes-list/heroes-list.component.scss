@@ -1,0 +1,15 @@
+
+.table--wrapper {
+    padding: 40px 20px;
+
+    table {
+        tr {
+            cursor: pointer;
+            &:hover {
+                td {
+                    background-color: #cdcdcd;
+                }
+            }
+        }
+    }
+}

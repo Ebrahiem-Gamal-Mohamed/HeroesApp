@@ -1,1 +1,23 @@
-<p>hero-profile works!</p>
+<div class="wrapper p-5">
+    <div class="container">
+        <section class="profile">
+            <ul class="list-unstyled p-0 m-0">
+                <li class="text-center my-4">
+                    <img class="rounded" [src]="hero?.profileImage ? hero?.profileImage: 'assets/images/default-img.png'" [alt]="hero?.fullName" />
+                </li>
+                <li>
+                    <span><strong>Hero Name: </strong></span> 
+                    <span>{{ hero?.fullName }}</span>
+                </li>
+                <li>
+                    <span><strong>Description: </strong></span> 
+                    <p>{{ hero?.description ? hero?.description : '-------' }}</p>
+                </li>
+                <li>
+                    <span><strong>Powers: </strong></span> 
+                    <p>{{ hero?.powers }}</p>
+                </li>
+            </ul>
+        </section>
+    </div>
+</div>

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { IHero } from './../hero.model';
+import { HeroService } from './../hero.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-hero-profile',
@@ -7,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeroProfileComponent implements OnInit {
 
-  constructor() { }
+  hero: IHero;
+  heroId: number;
+
+  constructor(private heroService: HeroService, private route: ActivatedRoute) {
+      this.heroId = +this.route.snapshot.paramMap.get('id');
+  }
 
   ngOnInit(): void {
+    this.hero = this.heroService.getHero(this.heroId);
   }
 
 }
