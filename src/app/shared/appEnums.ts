@@ -1,5 +1,6 @@
 
 export enum Sorter {
-    BYNAME = 1,
-    BYPOWERS
+    NAME = 'fullName',
+    POWERS = 'powers',
+    RATE = 'rate'
 }

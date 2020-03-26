@@ -28,7 +28,7 @@ export class HeroService {
         id: 1,
         fullName: 'Ahmed Mohammed',
         powers: 'Angular, React and NodeJs',
-        profileImage: '',
+        profileImage: 'https://lh3.googleusercontent.com/proxy/rIywYjJ3weGtPN8Tvej_ROCfKvjXwCUeQj_yHnwfeKZixhUBaUDyIq8zbsVyhbinJVpvUom0XCxFHQ-9jFK70w37CkJjSQfJ-P-Rg7OWyGB7Umw5iJmXVEo',
         description: 'Beutiful',
         rate: 2
       },
@@ -44,7 +44,7 @@ export class HeroService {
         id: 3,
         fullName: 'Ebrahiem Mohammed',
         powers: 'Angular, NodeJs, Mongodb & Vue',
-        profileImage: '',
+        profileImage: 'https://torange.biz/photofx/19/8/image-profile-picture-beautiful-flowers-sunflower-19228.jpg',
         description: 'Beutiful',
         rate: 5
       },
@@ -52,7 +52,7 @@ export class HeroService {
         id: 4,
         fullName: 'Ahmed Ezz',
         powers: 'DotNet, C# and Java',
-        profileImage: '',
+        profileImage: 'https://image.freepik.com/free-photo/beautiful-profile-kestrel_58409-12462.jpg',
         description: 'Awesome',
         rate: 4
       }
@@ -78,6 +78,7 @@ export class HeroService {
   }
 
   sortHeroes(column: string, direction: string): Observable<IHero[]> {
+    // let heroes: IHero[] = [];
     //if (option === Sorter.BYNAME) {
       //this.heroes.sort((a, b) => {
         //return a.fullName > b.fullName ? 0 : 1;
@@ -87,20 +88,19 @@ export class HeroService {
         //return a.powers > b.powers ? 0 : 1;
       //});
     //}
-    let heroes: IHero[] = [];
     if (direction === '' || column === '') {
-      heroes = this.getHeroes();
+      return of(this.getHeroes());
     } else {
-      heroes = [...this.heroes].sort((a, b) => {
+      return of([...this.heroes].sort((a, b) => {
         const res = compare(`${a[column]}`, `${b[column]}`);
         return direction === 'asc' ? res : -res;
-      });
+      }));
     }
-    return of(heroes);
+    // return of(heroes);
   }
 
   search(searchText: string): IHero[] {
-    return this.heroes.filter(hero => {
+    return [...this.heroes].filter(hero => {
       const term = searchText.toLowerCase();
       return hero.fullName.toLowerCase().includes(term)
             || hero.powers.toLowerCase().includes(term)

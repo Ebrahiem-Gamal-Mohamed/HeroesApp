@@ -5,7 +5,7 @@
         <input class="form-control" type="text" [formControl]="filter" placeholder="Search" />
         <div class="ml-auto">
           <span class="mx-2">Sort By Power</span>
-          <span class="mx-2"><button (click)="toggleSort()">toggler</button></span>
+          <span class="mx-2"><button class="btn btn-success" (click)="toggleSort()">toggler</button></span>
           <span class="mx-2">Sort By Name</span>
         </div>
       </div>
@@ -16,25 +16,27 @@
         <tr style="cursor: default;">
           <th scope="col">#</th>
           <ng-container *ngFor="let col of tableOptions.headers">
-            <th scope="col" sortable="col.name" (sort)="onSort($event)">{{ col?.value }}</th>
+            <th scope="col" [sortable]="sortableColumnName" (sort)="onSort($event, col?.name)">{{ col?.value }}</th>
           </ng-container>
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngIf="(heroes$ | async).length;else noDataFound;">
-          <ng-container *ngFor="let hero of heroes$ | async; let i = index">
-            <tr [routerLink]="['/heroes', hero?.id]">
-              <td>{{ i + 1 }}</td>
-              <td>
-                <ngb-highlight [result]="hero?.fullName" [term]="filter.value"></ngb-highlight>
-              </td>
-              <td>
-                <ngb-highlight [result]="hero?.powers" [term]="filter.value"></ngb-highlight>
-              </td>
-              <td>
-                <ngb-rating [(rate)]="hero.rate"></ngb-rating>
-              </td>
-            </tr>
+        <ng-container *ngIf="(heroes$ | async) as heroes">
+          <ng-container *ngIf="heroes && heroes.length;else noDataFound;">
+            <ng-container *ngFor="let hero of heroes; let i = index">
+              <tr [routerLink]="['/heroes', hero?.id]">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <ngb-highlight [result]="hero?.fullName" [term]="filter.value"></ngb-highlight>
+                </td>
+                <td>
+                  <ngb-highlight [result]="hero?.powers" [term]="filter.value"></ngb-highlight>
+                </td>
+                <td>
+                  <ngb-rating [(rate)]="hero.rate"></ngb-rating>
+                </td>
+              </tr>
+            </ng-container>
           </ng-container>
         </ng-container>
         <ng-template #noDataFound>
