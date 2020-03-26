@@ -11,5 +11,13 @@
                 }
             }
         }
+        tr.no--data-tr {
+            cursor: default;
+            &:hover {
+                td {
+                    background-color: initial;
+                }
+            }
+        }
     }
 }

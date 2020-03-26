@@ -11,13 +11,15 @@ import { HeroesListComponent } from './heroes/heroes-list/heroes-list.component'
 import { HeroProfileComponent } from './heroes/hero-profile/hero-profile.component';
 
 import { NgbdSortableHeader } from './shared/_directives/sortable.directive';
+import { EmptyComponent } from './shared/_components/empty/empty.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeroesListComponent,
     HeroProfileComponent,
-    NgbdSortableHeader
+    NgbdSortableHeader,
+    EmptyComponent
   ],
   imports: [
     BrowserModule,

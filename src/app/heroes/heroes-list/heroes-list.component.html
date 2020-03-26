@@ -21,20 +21,29 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let hero of heroes$ | async; let i = index">
-          <tr [routerLink]="['/heroes', hero?.id]">
-            <td>{{ i + 1 }}</td>
-            <td>
-              <ngb-highlight [result]="hero?.fullName" [term]="filter.value"></ngb-highlight>
-            </td>
-            <td>
-              <ngb-highlight [result]="hero?.powers" [term]="filter.value"></ngb-highlight>
-            </td>
-            <td>
-              <ngb-rating [(rate)]="hero.rate"></ngb-rating>
+        <ng-container *ngIf="(heroes$ | async).length;else noDataFound;">
+          <ng-container *ngFor="let hero of heroes$ | async; let i = index">
+            <tr [routerLink]="['/heroes', hero?.id]">
+              <td>{{ i + 1 }}</td>
+              <td>
+                <ngb-highlight [result]="hero?.fullName" [term]="filter.value"></ngb-highlight>
+              </td>
+              <td>
+                <ngb-highlight [result]="hero?.powers" [term]="filter.value"></ngb-highlight>
+              </td>
+              <td>
+                <ngb-rating [(rate)]="hero.rate"></ngb-rating>
+              </td>
+            </tr>
+          </ng-container>
+        </ng-container>
+        <ng-template #noDataFound>
+          <tr class="no--data-tr">
+            <td colspan="4">
+              <app-empty [message]="'No Data Found'"></app-empty>
             </td>
           </tr>
-        </ng-container>
+        </ng-template>
       </tbody>
     </table>
   </div>
