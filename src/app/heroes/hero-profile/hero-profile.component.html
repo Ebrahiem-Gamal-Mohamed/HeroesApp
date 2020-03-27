@@ -3,7 +3,7 @@
     <section class="profile">
       <ul class="list-unstyled p-0 m-0">
         <li class="text-center my-4">
-          <div class="img-container" [class.no-image]="!hero?.profileImage">
+          <div class="img-container" [class.no-image]="!hero?.profileImage" (click)="hero?.profileImage ? fastAccessService?.openModal(hero, fastAccess) : null">
             <img [class.default]="!hero?.profileImage" [src]="hero?.profileImage ? hero?.profileImage: 'assets/images/user.svg'" [alt]="hero?.fullName" />
           </div>
         </li>
@@ -29,3 +29,6 @@
     </section>
   </div>
 </div>
+
+
+<app-fast-access #fastAccess></app-fast-access>
