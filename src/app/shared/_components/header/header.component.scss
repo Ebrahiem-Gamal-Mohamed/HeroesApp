@@ -1,0 +1,17 @@
+.header {
+  background-color: #343a40;
+  .navbar-brand {
+    font-weight: bold !important;
+  }
+  .nav-link {
+      cursor: pointer;
+  }
+  .nav-item {
+    outline: none;
+  }
+  .nav-item.active {
+    border-bottom: 3px solid #319c09;
+    line-height: 25px;
+    font-size: 16px;
+  }
+}

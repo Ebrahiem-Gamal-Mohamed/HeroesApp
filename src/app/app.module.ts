@@ -19,6 +19,7 @@ import { EmptyComponent } from './shared/_components/empty/empty.component';
 import { FastAccessComponent } from './shared/_components/fast-access/fast-access.component';
 
 import { NgbdSortableHeader } from './shared/_directives/sortable.directive';
+import { HeaderComponent } from './shared/_components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { NgbdSortableHeader } from './shared/_directives/sortable.directive';
     HeroProfileComponent,
     NgbdSortableHeader,
     EmptyComponent,
-    FastAccessComponent
+    FastAccessComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
