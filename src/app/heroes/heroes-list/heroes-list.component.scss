@@ -3,21 +3,21 @@
     padding: 40px 20px;
 
     table {
-        tr {
-            cursor: pointer;
-            &:hover {
-                td {
-                    background-color: #cdcdcd;
-                }
-            }
+      tr {
+        cursor: pointer;
+        &:hover {
+          td {
+            background-color: #cdcdcd;
+          }
         }
-        tr.no--data-tr {
-            cursor: default;
-            &:hover {
-                td {
-                    background-color: initial;
-                }
-            }
+      }
+      tr.no--data-tr {
+        cursor: default;
+        &:hover {
+          td {
+            background-color: initial;
+          }
         }
+      }
     }
 }

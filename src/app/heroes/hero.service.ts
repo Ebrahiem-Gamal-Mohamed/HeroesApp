@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { IHero } from './hero.model';
 import { Sorter } from 'src/app/shared/appEnums';
-import {SortColumn, SortDirection} from './../shared/_directives/sortable.directive';
-import { Observable } from 'rxjs/';
-import { of } from 'rxjs/internal/observable/of';
+import { SortColumn, SortDirection } from './../shared/_directives/sortable.directive';
+import { Observable, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 const compare = (v1: string, v2: string) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
@@ -12,11 +12,7 @@ const compare = (v1: string, v2: string) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 })
 export class HeroService {
   heroes: IHero[] = [];
-
-  //private _set(patch: Partial<State>) {
-  //  Object.assign(this._state, patch);
-  //  this._search$.next();
-  //}
+  heroes$: Observable<IHero[]>;
 
   constructor() {
     this.initHeros();
@@ -67,6 +63,7 @@ export class HeroService {
     //         2
     //     ));
     // }
+    this.heroes$ = of(this.heroes);
   }
 
   getHeroes(): IHero[] {
@@ -77,33 +74,32 @@ export class HeroService {
     return this.heroes.find(item => item.id === id);
   }
 
-  sortHeroes(column: string, direction: string): Observable<IHero[]> {
-    // let heroes: IHero[] = [];
-    //if (option === Sorter.BYNAME) {
-      //this.heroes.sort((a, b) => {
-        //return a.fullName > b.fullName ? 0 : 1;
-      //});
-    //} else {
-      //this.heroes.sort((a, b) => {
-        //return a.powers > b.powers ? 0 : 1;
-      //});
-    //}
+  sortHeroes(column: string, direction: string) {
     if (direction === '' || column === '') {
-      return of(this.getHeroes());
+      this.heroes$ = of(this.getHeroes());
     } else {
-      return of([...this.heroes].sort((a, b) => {
-        const res = compare(`${a[column]}`, `${b[column]}`);
-        return direction === 'asc' ? res : -res;
-      }));
+      this.heroes$.pipe(
+        map(item => {
+          item.sort((a, b) => {
+            const res = compare(`${a[column]}`, `${b[column]}`);
+            return direction === 'asc' ? res : -res;
+          });
+        })
+      ).subscribe();
     }
-    // return of(heroes);
   }
 
-  search(searchText: string): IHero[] {
-    return [...this.heroes].filter(hero => {
-      const term = searchText.toLowerCase();
-      return hero.fullName.toLowerCase().includes(term)
-            || hero.powers.toLowerCase().includes(term)
-    });
+  search(searchText: string) {
+    of([...this.heroes]).pipe(
+      map((items: IHero[]) => {
+        const newItems = items.filter((hero: IHero) => {
+          const term = searchText.toLowerCase();
+          return hero.fullName.toLowerCase().includes(term)
+                || hero.powers.toLowerCase().includes(term)
+        });
+        return newItems;
+      })
+    ).subscribe(heros => {
+      this.heroes$ = of(heros)});
   }
 }

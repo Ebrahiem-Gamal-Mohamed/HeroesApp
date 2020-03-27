@@ -22,35 +22,35 @@ export interface Table {
 })
 export class HeroesListComponent implements OnInit {
 
-  //heroes: IHero[] = [];
-  heroes$: Observable<IHero[]>;
   tableOptions: Table;
   filter = new FormControl('');
   sortableColumnName: string = Sorter.NAME;
+  switchValue: boolean = true
 
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
-  constructor(private heroService: HeroService,private config: NgbRatingConfig) {
+  constructor(public heroService: HeroService,private config: NgbRatingConfig) {
     config.max = 5;
     config.readonly = true;
     this.tableOptions = {
       headers: [
-        { name: Sorter.NAME, value: 'Hero Name' },
-        { name: Sorter.POWERS, value: 'Powers' },
-        { name: Sorter.RATE, value: 'Rate' }
+        { name: Sorter.NAME, value: 'Hero Name', sortable: true },
+        { name: Sorter.POWERS, value: 'Powers', sortable: true },
+        { name: Sorter.RATE, value: 'Rate', sortable: false }
       ]
     };
-    this.heroes$ = this.filter.valueChanges.pipe(
+    this.filter.valueChanges.pipe(
       startWith(''),
       map(text => this.heroService.search(text))
-    );
+    ).subscribe();
   }
 
   ngOnInit(): void {
   }
 
-  toggleSort() {
+  toggleSort($event) {
     this.sortableColumnName === Sorter.NAME ? this.sortableColumnName = Sorter.POWERS : this.sortableColumnName = Sorter.NAME;
+    this.switchValue = $event.checked;
   }
 
   onSort({column, direction}: SortEvent, colName: string) {
@@ -60,12 +60,7 @@ export class HeroesListComponent implements OnInit {
           header.direction = '';
         }
       });
-      //this.heroService.sortColumn = column;
-      //this.heroService.sortDirection = direction;
-      this.heroes$ = this.heroes$.pipe(
-        debounceTime(10),
-        switchMap(() => this.heroService.sortHeroes(column, direction) )
-      );
+      this.heroService.sortHeroes(column, direction);
     } else {
       // console.log('not sortable column');
     }
