@@ -1,0 +1,41 @@
+
+@font-face {
+  font-family: 'roboto-black';
+  src: url('assets/fonts/roboto-black-webfont.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'roboto-bold';
+  src: url('assets/fonts/roboto-bold-webfont.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'roboto-light';
+  src: url('assets/fonts/roboto-light-webfont.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'roboto-medium';
+  src: url('assets/fonts/roboto-medium-webfont.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'roboto-regular';
+  src: url('assets/fonts/roboto-regular-webfont.woff2') format('woff2');
+}
+
+body,
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+textarea,
+.widget-text h5,
+h3.centered-headline span,
+select,
+.button,
+input[type=button],
+input[type=submit],
+button {
+  font-family: "roboto-regular";
+}

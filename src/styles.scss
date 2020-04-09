@@ -1,9 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+@import "_variables";
+@import "_fonts";
 
 // switcher style refactor ....
 .ui-inputswitch {
   .ui-inputswitch-slider {
-    background-color: #2f9c0a !important;
+    background-color: $light-green !important;
   }
 }
 
@@ -30,32 +32,32 @@
     -ms-transform: rotate(180deg);
   }
   span.ngb-highlight {
-    background-color: yellow;
+    background-color: $yellow;
   }
 }
 
 .fast-access {
-  width: 100%;
+  width: $w100;
   height: 100vh;
   top: 0px;
   right: 0px;
   bottom: 0px;
   left: 0px;
   position: absolute !important;
-  max-width: 100%;
-  max-height: 100% !important;
+  max-width: $w100;
+  max-height: $w100 !important;
   background-color: rgba(0, 0, 0, .7);
 
   .ui-dialog-titlebar {
     border: none !important;
     background-color: transparent !important;
-    color: #fff !important;
+    color: $white !important;
     padding: .5rem 2.5rem !important;
-    width: 100%;
+    width: $w100;
     position: absolute !important;
     z-index: 9999;
     .ui-dialog-titlebar-icon {
-        color: #fff !important;
+        color: $white !important;
         span {
             font-size: 18px;
         }
@@ -67,10 +69,7 @@
     overflow-y: auto;
     text-align: center;
     background-color: transparent !important;
-    color: #fff !important;
+    color: $white !important;
     border: none !important;
-    img {
-      
-    }
   }
 }
