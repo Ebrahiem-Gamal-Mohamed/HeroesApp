@@ -7,10 +7,12 @@ import { AppRoutingModule } from './app-routing.module';
 
 // thirdParties
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { DialogModule } from 'primeng/dialog';
 
+import { InMemHeroService } from './shared/_services/fake-hero-api.service';
 // components ...
 import { AppComponent } from './app.component';
 import { HeroesListComponent } from './heroes/heroes-list/heroes-list.component';
@@ -20,6 +22,7 @@ import { FastAccessComponent } from './shared/_components/fast-access/fast-acces
 
 import { NgbdSortableHeader } from './shared/_directives/sortable.directive';
 import { HeaderComponent } from './shared/_components/header/header.component';
+import { environment } from 'src/environments/environment.prod';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,9 @@ import { HeaderComponent } from './shared/_components/header/header.component';
     ReactiveFormsModule,
     NgbModule,
     InputSwitchModule,
-    DialogModule
+    DialogModule,
+    environment.production ?
+    [] : HttpClientInMemoryWebApiModule.forRoot(InMemHeroService, { delay: 0 })
   ],
   providers: [],
   bootstrap: [AppComponent],
