@@ -1,18 +1,18 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { HeroesListComponent } from './heroes/heroes-list/heroes-list.component';
-import { HeroProfileComponent } from 'src/app/heroes/hero-profile/hero-profile.component';
-
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
 const routes: Routes = [
-  { path: '', redirectTo: '/heroes', pathMatch: 'full' },
-  { path: 'heroes', component: HeroesListComponent },
-  { path: 'heroes/:id', component: HeroProfileComponent},
-  { path: '**', redirectTo: '/heroes' },
+  { path: "", redirectTo: "/heroes", pathMatch: "full" },
+  {
+    path: "heroes",
+    loadChildren: () =>
+      import("./heroes/heroes.module").then(m => m.HeroesModule)
+  },
+  { path: "**", redirectTo: "/heroes" }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
