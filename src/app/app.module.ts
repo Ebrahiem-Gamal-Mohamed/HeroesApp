@@ -2,7 +2,8 @@ import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app-routing.module";
-
+//NgRx..
+import { StoreModule } from '@ngrx/store';
 // thirdParties
 import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 import { InMemHeroService } from "./shared/_services/fake-hero-api.service";
@@ -19,6 +20,7 @@ import { HeroesModule } from "./heroes/heroes.module";
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    StoreModule.forRoot({}),
     SharedModule,
     HeroesModule,
     environment.production
