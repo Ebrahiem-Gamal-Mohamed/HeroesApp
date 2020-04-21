@@ -7,6 +7,7 @@ import { StoreModule } from "@ngrx/store";
 import { SharedModule } from "./../shared/shared.module";
 import { HeroesListComponent } from "./heroes-list/heroes-list.component";
 import { HeroProfileComponent } from "./hero-profile/hero-profile.component";
+import { heroReducer } from './state/hero.reducer';
 
 const herosRoutes: Routes = [
   { path: "", component: HeroesListComponent },
@@ -18,7 +19,7 @@ const herosRoutes: Routes = [
     CommonModule,
     SharedModule,
     RouterModule.forChild(herosRoutes),
-    StoreModule.forFeature("heroes", {})
+    StoreModule.forFeature("heroes", heroReducer)
   ],
   declarations: [HeroesListComponent, HeroProfileComponent],
   exports: [],

@@ -2,11 +2,23 @@
   <div class="table--wrapper">
     <form>
       <div class="form-group form-inline">
-        <input class="form-control" type="text" [formControl]="filter" placeholder="Search" />
+        <input
+          class="form-control"
+          type="text"
+          [ngModel]="filter"
+          (ngModelChange)="changeSearchCriteria($event)"
+          [ngModelOptions]="{ standalone: true }"
+          placeholder="Search"
+        />
         <div class="ml-auto d-flex align-items-center">
           <div class="mx-2">Sort By Power</div>
           <div class="mx-2">
-            <p-inputSwitch styleClass="switcher" [(ngModel)]="switchValue" [ngModelOptions]="{standalone: true}" (onChange)="toggleSort($event)"></p-inputSwitch>
+            <p-inputSwitch
+              styleClass="switcher"
+              [(ngModel)]="switchValue"
+              [ngModelOptions]="{ standalone: true }"
+              (onChange)="toggleSort()"
+            ></p-inputSwitch>
           </div>
           <div class="mx-2">Sort By Name</div>
         </div>
@@ -18,21 +30,41 @@
         <tr style="cursor: default;">
           <th scope="col">#</th>
           <ng-container *ngFor="let col of tableOptions.headers">
-            <th scope="col" [sortable]="(col.sortable && sortableColumnName === col?.name) ? sortableColumnName: null" (sort)="(col.sortable && sortableColumnName === col?.name) ? onSort($event, col?.name): null">{{ col?.value }}</th>
+            <th
+              scope="col"
+              [sortable]="
+                col.sortable && sortableColumnName === col?.name
+                  ? sortableColumnName
+                  : null
+              "
+              (sort)="
+                col.sortable && sortableColumnName === col?.name
+                  ? onSort($event, col?.name)
+                  : null
+              "
+            >
+              {{ col?.value }}
+            </th>
           </ng-container>
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngIf="(heroService?.heroes$ | async) as heroes">
-          <ng-container *ngIf="heroes && heroes.length;else noDataFound;">
+        <ng-container *ngIf="heroService?.heroes$ | async as heroes">
+          <ng-container *ngIf="heroes && heroes.length; else noDataFound">
             <ng-container *ngFor="let hero of heroes; let i = index">
               <tr [routerLink]="['/heroes', hero?.id]">
                 <td>{{ i + 1 }}</td>
                 <td>
-                  <ngb-highlight [result]="hero?.fullName" [term]="filter.value"></ngb-highlight>
+                  <ngb-highlight
+                    [result]="hero?.fullName"
+                    [term]="filter"
+                  ></ngb-highlight>
                 </td>
                 <td>
-                  <ngb-highlight [result]="hero?.powers" [term]="filter.value"></ngb-highlight>
+                  <ngb-highlight
+                    [result]="hero?.powers"
+                    [term]="filter"
+                  ></ngb-highlight>
                 </td>
                 <td>
                   <ngb-rating [(rate)]="hero.rate"></ngb-rating>

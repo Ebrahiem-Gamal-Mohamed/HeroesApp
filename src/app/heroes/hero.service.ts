@@ -100,6 +100,7 @@ export class HeroService {
         return newItems;
       })
     ).subscribe(heros => {
-      this.heroes$ = of(heros)});
+      this.heroes$ = of(heros)
+    });
   }
 }

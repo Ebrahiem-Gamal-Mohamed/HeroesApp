@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app-routing.module";
 //NgRx..
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools'; 
 // thirdParties
 import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 import { InMemHeroService } from "./shared/_services/fake-hero-api.service";
@@ -21,6 +22,11 @@ import { HeroesModule } from "./heroes/heroes.module";
     BrowserAnimationsModule,
     AppRoutingModule,
     StoreModule.forRoot({}),
+    StoreDevtoolsModule.instrument({
+      name: 'Heroes App',
+      maxAge: 25,
+      logOnly: environment.production
+    }),
     SharedModule,
     HeroesModule,
     environment.production
