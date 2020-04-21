@@ -1,15 +1,17 @@
-import { Component, OnInit, ViewChildren, QueryList } from "@angular/core";
+import { Component, OnInit, ViewChildren, QueryList, OnDestroy } from "@angular/core";
 import { HeroService } from "./../hero.service";
 import { NgbRatingConfig } from "@ng-bootstrap/ng-bootstrap";
 import { Sorter } from "src/app/shared/appEnums";
 import {
   SortEvent,
-  NgbdSortableHeader
+  NgbdSortableHeader,
+  SortDirection
 } from "./../../shared/_directives/sortable.directive";
 // NgRx ...
 import { Store, select } from "@ngrx/store";
 import * as fromHeroes from "../state/hero.reducer";
 import * as HeroesActions from "../state/hero.actions";
+import { takeWhile } from 'rxjs/operators';
 
 export interface Table {
   headers: any[];
@@ -21,11 +23,12 @@ export interface Table {
   styleUrls: ["./heroes-list.component.scss"],
   providers: [NgbRatingConfig]
 })
-export class HeroesListComponent implements OnInit {
+export class HeroesListComponent implements OnInit, OnDestroy {
   tableOptions: Table;
   sortableColumnName: string = Sorter.NAME;
   filter: string;
   switchValue: boolean = true;
+  componentActive = true;
 
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
@@ -46,7 +49,10 @@ export class HeroesListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.pipe(select(fromHeroes.getHeroSortBy)).subscribe(
+    this.store.pipe(
+      takeWhile(() => this.componentActive),
+      select(fromHeroes.getHeroSortBy)
+      ).subscribe(
       sortBy => {
       this.sortableColumnName = sortBy;
       this.sortableColumnName === Sorter.NAME
@@ -54,8 +60,24 @@ export class HeroesListComponent implements OnInit {
         : (this.switchValue = false);
     });
 
-    this.store.pipe(select(fromHeroes.getHeroSearchValue)).subscribe(
+    this.store.pipe(
+      takeWhile(() => this.componentActive),
+      select(fromHeroes.getHeroSearchValue)
+      ).subscribe(
       searchText => (this.filter = searchText));
+
+    this.store.pipe(
+      takeWhile(() => this.componentActive),
+      select(fromHeroes.getHeroSortType)
+      ).subscribe(({column, direction}) => {
+      if (this.headers) this.headers.forEach(header => {
+        if (header.sortable === column) {
+          header.direction = direction as SortDirection;
+        } else {
+          header.direction = "";
+        }
+      });
+    });
   }
 
   changeSearchCriteria(value: string) {
@@ -73,14 +95,14 @@ export class HeroesListComponent implements OnInit {
 
   onSort({ column, direction }: SortEvent, colName: string) {
     if (colName === column) {
-      this.headers.forEach(header => {
-        if (header.sortable !== column) {
-          header.direction = "";
-        }
-      });
+      this.store.dispatch(new HeroesActions.ChangeSortType({column, direction}));
       this.heroService.sortHeroes(column, direction);
     } else {
       // console.log('not sortable column');
     }
+  }
+
+  ngOnDestroy() {
+    this.componentActive = false;
   }
 }

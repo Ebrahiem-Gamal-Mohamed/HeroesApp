@@ -10,13 +10,13 @@ export interface State extends fromRoot.State {
 export interface HeroState {
   heroes: IHero[];
   sortBy: string;
-  sortType: string;
+  sortType: {column: string, direction: string};
   searchValue: string;
 }
 const initialState: HeroState = {
   heroes: [],
   sortBy: Sorter.NAME,
-  sortType: "",
+  sortType: {column: '', direction: ''},
   searchValue: ""
 };
 
@@ -26,13 +26,17 @@ export const getHeroSortBy = createSelector(
   getHeroFeatureState,
   state => state.sortBy
 ); // state selector
+export const getHeroSortType = createSelector(
+  getHeroFeatureState,
+  state => state.sortType
+); // state selector
 export const getHeroes = createSelector(
   getHeroFeatureState,
   state => state.heroes
 ); // state selector
 export const getHeroSearchValue = createSelector(
-    getHeroFeatureState,
-    state => state.searchValue
+  getHeroFeatureState,
+  state => state.searchValue
 ); // state selector
 
 // Reducer ....
@@ -50,13 +54,19 @@ export function heroReducer(
     case HeroesActionTypes.ChangeSortType:
       return {
         ...state,
-        sortType: action.payload
+        sortType: {...action.payload}
       };
 
     case HeroesActionTypes.ChangeSearchValue:
       return {
         ...state,
         searchValue: action.payload
+      };
+
+    case HeroesActionTypes.LoadSuccess:
+      return {
+        ...state,
+        heroes: action.payload
       };
 
     default:

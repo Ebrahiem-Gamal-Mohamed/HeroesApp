@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IHero } from './hero.model';
-import { Sorter } from 'src/app/shared/appEnums';
-import { SortColumn, SortDirection } from './../shared/_directives/sortable.directive';
 import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 const compare = (v1: string, v2: string) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
@@ -53,21 +51,11 @@ export class HeroService {
         rate: 4
       }
     ];
-    // for(let i = 0; i <= 10; i++) {
-    //     this.heroes.push(new Hero(
-    //         i+1,
-    //         `Ahmed Mohammed ${i+1}`,
-    //         'Angular, React and NodeJs',
-    //         '',
-    //         'Beutiful',
-    //         2
-    //     ));
-    // }
-    this.heroes$ = of(this.heroes);
+    this.heroes$ = this.getHeroes();
   }
 
-  getHeroes(): IHero[] {
-    return [...this.heroes];
+  getHeroes(): Observable<IHero[]> {
+    return of([...this.heroes]);
   }
 
   getHero(id: number): IHero {
@@ -76,7 +64,7 @@ export class HeroService {
 
   sortHeroes(column: string, direction: string) {
     if (direction === '' || column === '') {
-      this.heroes$ = of(this.getHeroes());
+      this.heroes$ = this.getHeroes();
     } else {
       this.heroes$.pipe(
         map(item => {

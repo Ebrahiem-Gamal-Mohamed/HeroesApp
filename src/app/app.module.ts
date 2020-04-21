@@ -14,6 +14,7 @@ import { AppComponent } from "./app.component";
 import { environment } from "src/environments/environment.prod";
 import { SharedModule } from "./shared/shared.module";
 import { HeroesModule } from "./heroes/heroes.module";
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +23,7 @@ import { HeroesModule } from "./heroes/heroes.module";
     BrowserAnimationsModule,
     AppRoutingModule,
     StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       name: 'Heroes App',
       maxAge: 25,
